@@ -1,0 +1,15 @@
+[Unit]
+Description=handctrl — VR-style hand-gesture cursor control
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/handctrl run
+Restart=on-failure
+RestartSec=3
+Nice=10
+CPUQuota=60%
+MemoryMax=500M
+
+[Install]
+WantedBy=graphical-session.target

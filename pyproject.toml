@@ -1,0 +1,39 @@
+[project]
+name = "handctrl"
+version = "0.1.0"
+description = "VR-style (Vision Pro / Quest) hand-gesture cursor control for Linux"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "mediapipe>=0.10.14",
+    "numpy",
+    "evdev>=1.7",
+    "dbus-fast>=2.0",
+]
+
+[project.scripts]
+handctrl = "handctrl.__main__:main"
+
+[project.optional-dependencies]
+rtmpose = [
+    "rtmlib>=0.0.16",
+    # GPU build (also runs on CPU); the extras pull the CUDA/cuDNN runtime as pip wheels.
+    "onnxruntime-gpu[cuda,cudnn]>=1.20",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.uv]
+# rtmlib pulls in opencv-python and onnxruntime, which would overwrite the cv2 package of
+# mediapipe's opencv-contrib-python and the onnxruntime package of onnxruntime-gpu.
+override-dependencies = [
+    "opencv-python; sys_platform == 'never'",
+    "onnxruntime; sys_platform == 'never'",
+]

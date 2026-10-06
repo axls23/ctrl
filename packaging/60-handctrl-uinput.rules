@@ -1,0 +1,2 @@
+# Let the logged-in user create virtual input devices (handctrl pointer/keys).
+KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
